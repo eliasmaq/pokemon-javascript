@@ -1,24 +1,25 @@
-const cardsContainer = document.getElementById('root');
+import URL from "../config.js";
 
-fetch('https://api.pokemontcg.io/v2/cards?pageSize=50')
-  .then(response => response.json())
-  .then(data => {
-    // procesar la respuesta aquí
-    const cards = data.data;
+async function apiService(url, { method, body, headers } = {}) {
+  if (body) {
+    headers = { ...headers, "Content-Type": "application/json" };
+  }
 
-    // crear el contenido HTML para mostrar las cartas
-    let cardsHTML = '';
-    cards.forEach(card => {
-      cardsHTML += `
-				<div class="root">
-					<div class="card">
-          	<img src="${card.images.small}" alt="${card.name}" class="card__item">
-					</div>
-        </div>
-      `;
-    });
+  const config = {
+    method: method || body ? "POST" : "GET",
+    headers: headers,
+    body: body ? JSON.stringify(body) : null,
+  };
 
-    // agregar el contenido HTML al elemento 'cards' en el DOM
-    cardsContainer.innerHTML = cardsHTML;
-  })
-  .catch(error => console.error(error));
+  const response = await fetch(URL + url, config);
+  let data;
+  try {
+    data = await response.json();
+  } catch (error) {
+    data = { message: error };
+  }
+  console.log(data);
+  return data;
+}
+
+export default apiService;
