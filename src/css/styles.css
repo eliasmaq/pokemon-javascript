@@ -1,0 +1,22 @@
+.title {
+  color: #2b2b25;
+  text-align: center;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: calc(1em + 0.225rem);
+}
+
+.card {
+  margin: 0 20px;
+  padding: 10px;
+}
+
+.card__item {
+  width: 180px;
+  height: 250px
+}
